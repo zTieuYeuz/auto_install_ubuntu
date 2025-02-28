@@ -1,7 +1,4 @@
 #cloud-config
-package_update: true
-package_upgrade: true
-
 autoinstall:
   version: 1
   refresh-installer:
@@ -11,10 +8,10 @@ autoinstall:
     layout: us
     variant: ""
   identity:
-    hostname: ubuntu
+    hostname: ubuntu-auto
     username: administrator
-    # Thay thế giá trị password bên dưới bằng mật khẩu băm thực của "Itadmin@2023"
-    password: "$6$rounds=4096$e5aK6z1BjM.$LhpZtN1SyC9OIE31Z/h5RSJUvwdXj0S2vGqyOkM5bbU80Ea4aXEu6UTKOqaFQwWzBQG/5Y9NXN1Vg/K0hmUUV1"
+    # Thay thế giá trị password bên dưới bằng mật khẩu băm của "Itadmin@2023"
+    password: "$6$rounds=4096$YOUR_GENERATED_HASH_HERE"
   ssh:
     install-server: true
   storage:
@@ -26,6 +23,7 @@ autoinstall:
     - git
     - nano
 
-runcmd:
-  - apt-get update
-  - apt-get upgrade -y
+  # late-commands sẽ chạy sau khi cài đặt xong, nhưng trước khi kết thúc quá trình autoinstall
+  late-commands:
+    - curtin in-target --target=/target apt-get update
+    - curtin in-target --target=/target apt-get upgrade -y
