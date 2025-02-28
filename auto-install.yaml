@@ -10,8 +10,8 @@ autoinstall:
   identity:
     hostname: ubuntu-auto
     username: administrator
-    # Thay thế giá trị password bên dưới bằng mật khẩu băm của "Itadmin@2023"
-    password: "$6$rounds=4096$YOUR_GENERATED_HASH_HERE"
+    # Mật khẩu bcrypt, lưu ý: $2a$10$... là định dạng bcrypt
+    password: "$2a$10$UsoXu3wTgQJnfm/9NLWGlu1cDst69.vgTdmX.DHILxjBW.yREthOe"
   ssh:
     install-server: true
   storage:
@@ -23,7 +23,6 @@ autoinstall:
     - git
     - nano
 
-  # late-commands sẽ chạy sau khi cài đặt xong, nhưng trước khi kết thúc quá trình autoinstall
   late-commands:
     - curtin in-target --target=/target apt-get update
     - curtin in-target --target=/target apt-get upgrade -y
